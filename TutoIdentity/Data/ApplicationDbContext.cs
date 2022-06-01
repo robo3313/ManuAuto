@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+using ManuAuto.Models;
+
 namespace TutoIdentity.Data
 {
     public class ApplicationDbContext : IdentityDbContext
@@ -9,5 +11,9 @@ namespace TutoIdentity.Data
             : base(options)
         {
         }
+
+        public DbSet<Tutorial> Tutorials { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
     }
 }
