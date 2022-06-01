@@ -13,22 +13,22 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VideoUrl)
+                Video link
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AuthorId)
+                Creation Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModificationDate)
+                Last Update
             </th>
             <th></th>
         </tr>
@@ -37,6 +37,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
@@ -44,9 +47,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VideoUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreationDate)
