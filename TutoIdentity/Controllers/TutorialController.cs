@@ -58,6 +58,8 @@ namespace ManuAuto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Tutorial tutorial)
         {
+            tutorial.CreationDate = DateTime.Now;
+            tutorial.ModificationDate = tutorial.CreationDate;
             if (ModelState.IsValid)
             {
                 _context.Add(tutorial);
@@ -99,6 +101,7 @@ namespace ManuAuto.Controllers
             {
                 try
                 {
+                    tutorial.ModificationDate = DateTime.Now;
                     _context.Update(tutorial);
                     await _context.SaveChangesAsync();
                 }

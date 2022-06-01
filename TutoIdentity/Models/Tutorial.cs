@@ -13,8 +13,6 @@ public class Tutorial
     [Required, MaxLength(100)]
     public string? VideoUrl { get; set; }
     [Required]
-    public int AuthorId { get; set; }
-    [Required]
     public DateTime CreationDate { get; set; }
     [Required]
     public DateTime ModificationDate { get; set; }
