@@ -362,6 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-./TutoIdentity/appsettings.json
+TutoIdentity/appsettings.json
 
-./appsettings.json
+appsettings.json
