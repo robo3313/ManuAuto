@@ -19,6 +19,6 @@ public class Tutorial
     [Required]
     public DateTime ModificationDate { get; set; }
 
-    public virtual ICollection<Tag> Tags { get; set; }
+    public virtual ICollection<Tag>? Tags { get; set; }
 }
 

@@ -11,6 +11,6 @@ public class Tag
     [Required, MaxLength(100)]
     public string Fullname { get; set; }
 
-    public virtual ICollection<Tutorial> Tutorials { get; set; }
+    public virtual ICollection<Tutorial>? Tutorials { get; set; }
 }
 
