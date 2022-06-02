@@ -1,13 +1,11 @@
 ﻿@model ManuAuto.Models.Tag
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Modification d'une catégorie";
 }
 
-<h1>Edit</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Tag</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -23,7 +21,7 @@
                 <input asp-for="Fullname" class="form-control" />
                 <span asp-validation-for="Fullname" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group py-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
