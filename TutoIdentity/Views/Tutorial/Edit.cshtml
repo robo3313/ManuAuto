@@ -12,7 +12,6 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -28,15 +27,10 @@
                 <input asp-for="VideoUrl" class="form-control" />
                 <span asp-validation-for="VideoUrl" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div style="display:none;" class="form-group">
                 <label asp-for="CreationDate" class="control-label"></label>
                 <input asp-for="CreationDate" class="form-control" />
                 <span asp-validation-for="CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModificationDate" class="control-label"></label>
-                <input asp-for="ModificationDate" class="form-control" />
-                <span asp-validation-for="ModificationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

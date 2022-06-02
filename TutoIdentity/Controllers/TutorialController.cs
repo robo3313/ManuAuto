@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using ManuAuto.Models;
 using TutoIdentity.Data;
 
@@ -48,6 +45,7 @@ namespace ManuAuto.Controllers
         // GET: Tutorial/Create
         public IActionResult Create()
         {
+            ViewData["Tags"] = _context.Tags;
             return View();
         }
 
@@ -56,8 +54,18 @@ namespace ManuAuto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Tutorial tutorial)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,VideoUrl,AuthorId,CreationDate,ModificationDate,Tags")] Tutorial tutorial)
         {
+            ICollection<string> keys = HttpContext.Request.Form.Keys;
+            List<int> tagsToAdd = new();
+            foreach (string key in keys)
+            {
+                if (key.Contains("Tag_")) {
+                    tagsToAdd.Add(Int32.Parse(HttpContext.Request.Form[key].ToString()));
+                }
+            }
+
+            tutorial.Tags = _context.Tags.Where(e => tagsToAdd.Contains(e.Id)).ToList();
             tutorial.CreationDate = DateTime.Now;
             tutorial.ModificationDate = tutorial.CreationDate;
             if (ModelState.IsValid)
@@ -86,35 +94,17 @@ namespace ManuAuto.Controllers
         }
 
         // POST: Tutorial/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,VideoUrl,AuthorId,CreationDate,ModificationDate")] Tutorial tutorial)
+        public async Task<IActionResult> Edit(Tutorial tutorial)
         {
-            if (id != tutorial.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
+            if (ModelState.IsValid) {
+                try {
                     tutorial.ModificationDate = DateTime.Now;
                     _context.Update(tutorial);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TutorialExists(tutorial.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
+                } catch (DbUpdateConcurrencyException) {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
