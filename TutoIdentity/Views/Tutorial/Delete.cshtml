@@ -1,15 +1,14 @@
 ﻿@model ManuAuto.Models.Tutorial
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Suppression d'un tutoriel";
 }
 
-<h1>Delete</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Veillez confirmer la suppression de ce tutoriel</h3>
 <div>
-    <h4>Tutorial</h4>
-    <hr />
+   
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
