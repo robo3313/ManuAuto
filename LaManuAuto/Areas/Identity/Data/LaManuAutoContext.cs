@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using LaManuAuto.Models;
+
 namespace LaManuAuto.Data;
 
 public class LaManuAutoContext : IdentityDbContext<LaManuAutoUser>
@@ -31,4 +33,9 @@ public class LaManuAutoContext : IdentityDbContext<LaManuAutoUser>
             builder.Property(u => u.LastName).HasMaxLength(255);
         }
     }
+
+    public DbSet<Tutorial> Tutorials { get; set; }
+
+    public DbSet<Tag> Tags { get; set; }
+
 }
