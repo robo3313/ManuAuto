@@ -7,20 +7,22 @@
     <h1 class="display-4">Bienvenue sur la MANU-AUTO</h1>
 </div>
 
-<div class="row row-cols-1 row-cols-md-3 g-5">
+<div class="row row-cols-1 row-cols-lg-3 g-5">
     @foreach (var item in Model)
     {
         <div class="col">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-header">[Catégorie]</div>
-                <div class="card-body">
-                    <h4 class="card-title">@item.Title</h4>
-                    <p class="card-text">@item.Description</p>
-                    <div class="text-center">
-                        <iframe class="text-center" src="@item.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <a class="text-decoration-none" asp-controller="Tutorial" asp-action="Details" asp-route-id="@item.Id">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header">[Catégorie]</div>
+                    <div class="card-body">
+                        <h4 class="card-title">@item.Title</h4>
+                        @*<p class="card-text">@item.Description</p>*@
+                        <div class="text-center">
+                            <iframe class="text-center" src="@item.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     }
 </div>
