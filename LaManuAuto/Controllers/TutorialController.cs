@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LaManuAuto.Data;
 using LaManuAuto.Models;
+using System.Security.Claims;
 
 namespace LaManuAuto.Controllers
 {
@@ -23,9 +24,25 @@ namespace LaManuAuto.Controllers
         // GET: Tutorials
         public async Task<IActionResult> Index()
         {
-              return _context.Tutorials != null ? 
-                          View(await _context.Tutorials.ToListAsync()) :
-                          Problem("Entity set 'LaManuAutoContext.Tutorials'  is null.");
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            string userId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+
+            List<TutorialView> tmp = _context.TutorialView.Where(t => t.UserId == userId).ToList();
+
+            List<Tutorial> tutorials = _context.Tutorials.ToList();
+
+            foreach (Tutorial tutorial in tutorials)
+            {
+                foreach (TutorialView tutorialView in tmp)
+                {
+                    if (tutorialView.TutorialId == tutorial.Id)
+                    {
+                        tutorial.Viewed = true;
+                    }
+                }
+            }
+
+            return View(tutorials);
         }
 
         // GET: Tutorials/Details/5
@@ -41,7 +58,16 @@ namespace LaManuAuto.Controllers
             {
                 return NotFound();
             }
-
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            string userId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            TutorialView? view = _context.TutorialView.Where(t => t.TutorialId == id && t.UserId == userId).SingleOrDefault();
+            if (view == null) {
+                var tmp = new TutorialView();
+                tmp.TutorialId = tutorial.Id;
+                tmp.UserId = userId;
+                _context.TutorialView.Add(tmp);
+                await _context.SaveChangesAsync();
+            }
             return View(tutorial);
         }
 
