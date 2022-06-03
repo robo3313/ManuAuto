@@ -2,6 +2,31 @@
 @{
     ViewData["Title"] = "Manager Page";
 }
-<div class="text-center">
-    <h1 class="display-4">Manager Page</h1>
+<div>
+    <h1 class="display-4 text-center">Manager Page</h1>
+    @if (@Model != null && @Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Normalized name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var role in Model)
+                {
+                    <tr>
+                        <th scope="row">@role.Id</th>
+                        <td>@role.Name</td>
+                        <td>@role.NormalizedName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else{
+        <p>There's no registered role !</p>
+    }
 </div>
