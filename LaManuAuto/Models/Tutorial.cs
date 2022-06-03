@@ -14,7 +14,7 @@ public class Tutorial
     [Required, MaxLength(100)]
     public string? VideoUrl { get; set; }
     [DatabaseGenerated(DatabaseGeneratedOption.Identity), System.Runtime.Serialization.DataMember]
-    public DateTime CreationDate { get; set; }
+    public DateTime CreationDate { get; init; } = DateTime.Now;
     [Required]
     public DateTime ModificationDate { get; set; }
 

@@ -1,26 +1,36 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LaManuAuto.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaManuAuto.Controllers
 {
     public class RoleController : Controller
     {
-        public IActionResult Index()
+        private readonly LaManuAutoContext _context;
+        public RoleController(LaManuAutoContext context) => _context = context;
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return _context.Roles != null ?
+                          View(await _context.Roles.ToListAsync()) :
+                          Problem("Entity set 'LaManuAutoContext.Roles'  is null.");
         }
 
         [Authorize(Policy = "RequireManager")]
-        public IActionResult Manager()
+        public async Task<IActionResult> Manager()
         {
-            return View();
+            return _context.Roles != null ?
+                          View(await _context.Roles.ToListAsync()) :
+                          Problem("Entity set 'LaManuAutoContext.Roles'  is null.");
         }
 
         [Authorize(Policy = "RequireAdmin")]
         //[Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager}")]
-        public IActionResult Admin()
+        public async Task<IActionResult> Admin()
         {
-            return View();
+            return _context.Roles != null ?
+                          View(await _context.Roles.ToListAsync()) :
+                          Problem("Entity set 'LaManuAutoContext.Roles'  is null.");
         }
     }
 }
