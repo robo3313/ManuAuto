@@ -13,10 +13,9 @@ public class Tutorial
     public string? Description { get; set; }
     [Required, MaxLength(100)]
     public string? VideoUrl { get; set; }
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity), System.Runtime.Serialization.DataMember]
+    [Required]
     public DateTime CreationDate { get; set; }
     [Required]
     public DateTime ModificationDate { get; set; }
-
     public virtual ICollection<Tag>? Tags { get; set; }
 }

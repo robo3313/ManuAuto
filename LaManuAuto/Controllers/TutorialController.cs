@@ -11,11 +11,11 @@ using LaManuAuto.Models;
 
 namespace LaManuAuto.Controllers
 {
-    public class TutorialsController : Controller
+    public class TutorialController : Controller
     {
         private readonly LaManuAutoContext _context;
 
-        public TutorialsController(LaManuAutoContext context)
+        public TutorialController(LaManuAutoContext context)
         {
             _context = context;
         }
@@ -36,8 +36,7 @@ namespace LaManuAuto.Controllers
                 return NotFound();
             }
 
-            var tutorial = await _context.Tutorials
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var tutorial = await _context.Tutorials.Include(t => t.Tags).FirstOrDefaultAsync(t => t.Id == id);
             if (tutorial == null)
             {
                 return NotFound();
@@ -50,6 +49,7 @@ namespace LaManuAuto.Controllers
         [Authorize(Policy = "RequireAdmin")]
         public IActionResult Create()
         {
+            ViewData["Tags"] = _context.Tags;
             return View();
         }
 
@@ -61,6 +61,19 @@ namespace LaManuAuto.Controllers
         [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,VideoUrl,CreationDate,ModificationDate")] Tutorial tutorial)
         {
+            ICollection<string> keys = HttpContext.Request.Form.Keys;
+            List<int> tagsToAdd = new();
+            foreach (string key in keys)
+            {
+                if (key.Contains("Tag_"))
+                {
+                    tagsToAdd.Add(Int32.Parse(HttpContext.Request.Form[key].ToString()));
+                }
+            }
+
+            tutorial.Tags = _context.Tags.Where(e => tagsToAdd.Contains(e.Id)).ToList();
+            tutorial.CreationDate = DateTime.Now;
+            tutorial.ModificationDate = DateTime.Now;
             if (ModelState.IsValid)
             {
                 _context.Add(tutorial);
@@ -78,11 +91,12 @@ namespace LaManuAuto.Controllers
                 return NotFound();
             }
 
-            var tutorial = await _context.Tutorials.FindAsync(id);
+            var tutorial = await _context.Tutorials.Include(t => t.Tags).FirstOrDefaultAsync(t => t.Id == id);
             if (tutorial == null)
             {
                 return NotFound();
             }
+            ViewData["Tags"] = _context.Tags;
             return View(tutorial);
         }
 
@@ -91,13 +105,33 @@ namespace LaManuAuto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,VideoUrl,CreationDate,ModificationDate")] Tutorial tutorial)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,VideoUrl,CreationDate,ModificationDate")] Tutorial newTutorial)
         {
-            if (id != tutorial.Id)
+            if (id != newTutorial.Id)
             {
                 return NotFound();
             }
 
+            ICollection<string> keys = HttpContext.Request.Form.Keys;
+            List<int> tagsToAdd = new();
+            foreach (string key in keys)
+            {
+                if (key.Contains("Tag_"))
+                {
+                    tagsToAdd.Add(Int32.Parse(HttpContext.Request.Form[key].ToString()));
+                }
+            }
+
+            var tutorial = _context.Tutorials.Include(t => t.Tags).Single(u => u.Id == id);
+            if (tutorial.Tags != null)
+            {
+                tutorial.Tags.Clear();
+            }
+            tutorial.Tags = _context.Tags.Where(e => tagsToAdd.Contains(e.Id)).ToList();
+            tutorial.Title = newTutorial.Title;
+            tutorial.Description = newTutorial.Description;
+            tutorial.VideoUrl = newTutorial.VideoUrl;
+            tutorial.ModificationDate = DateTime.Now;
             if (ModelState.IsValid)
             {
                 try
