@@ -1,18 +1,17 @@
 ﻿@model LaManuAuto.Models.Tutorial
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h1>Edit</h1>
+<h1>Create</h1>
 
 <h4>Tutorial</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -28,18 +27,15 @@
                 <input asp-for="VideoUrl" class="form-control" />
                 <span asp-validation-for="VideoUrl" class="text-danger"></span>
             </div>
+            @foreach (var tag in ViewBag.Tags)
+            {
+                <div class="d-flex" style="align-items: center;">
+                    <input id="Tag_@tag.Id" name="Tag_@tag.Id" type="checkbox" value="@tag.Id" />&nbsp;
+                    <label for="Tag_@tag.Id" class="control-label">@tag.Fullname</label>
+                </div>
+            }
             <div class="form-group">
-                <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" />
-                <span asp-validation-for="CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModificationDate" class="control-label"></label>
-                <input asp-for="ModificationDate" class="form-control" />
-                <span asp-validation-for="ModificationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

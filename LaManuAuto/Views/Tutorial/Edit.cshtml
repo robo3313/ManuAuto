@@ -1,0 +1,68 @@
+﻿@model LaManuAuto.Models.Tutorial
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Tutorial</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VideoUrl" class="control-label"></label>
+                <input asp-for="VideoUrl" class="form-control" />
+                <span asp-validation-for="VideoUrl" class="text-danger"></span>
+            </div>
+            @{
+                string check;
+                foreach (var tag in ViewBag.Tags)
+                {
+                    check = "false";
+                    @foreach (var test in Model.Tags)
+                    {
+                        if (tag.Id == test.Id)
+                        {
+                            check = "checked";
+                        }
+                    }
+                    <div class="form-group py-3 d-flex" style="align-items: center;">
+                        @if (check == "checked") {
+                            <input id="Tag_@tag.Id" name="Tag_@tag.Id" type="checkbox" value="@tag.Id" checked/>
+                        } else {
+                            <input id="Tag_@tag.Id" name="Tag_@tag.Id" type="checkbox" value="@tag.Id" />
+                        }
+                        <label for="Tag_@tag.Id" class="control-label">@tag.Fullname</label>
+                    </div>
+                }
+            }
+            <div class="form-group" style="display:none;">
+                <label asp-for="CreationDate" class="control-label"></label>
+                <input asp-for="CreationDate" class="form-control" />
+                <span asp-validation-for="CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
