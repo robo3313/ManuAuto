@@ -11,11 +11,11 @@ using LaManuAuto.Models;
 
 namespace LaManuAuto.Controllers
 {
-    public class TutorialsController : Controller
+    public class TutorialController : Controller
     {
         private readonly LaManuAutoContext _context;
 
-        public TutorialsController(LaManuAutoContext context)
+        public TutorialController(LaManuAutoContext context)
         {
             _context = context;
         }
