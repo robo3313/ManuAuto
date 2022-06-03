@@ -38,4 +38,6 @@ public class LaManuAutoContext : IdentityDbContext<LaManuAutoUser>
 
     public DbSet<Tag> Tags { get; set; }
 
+    public DbSet<TutorialView> TutorialView { get; set; }
+
 }
