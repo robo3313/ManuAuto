@@ -22,9 +22,10 @@
 
 @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
 {
-<div class="mb-4">
-    <iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+    <div class="mb-4">
+        <iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+}
 <h2>Catégories</h2>
 @if (Model.Tags != null) {
     <div class="text-muted mb-3">
