@@ -25,7 +25,6 @@ public class UserController : Controller
     public async Task<IActionResult> Index()
     {
         var users = _context.Users.ToList();
-        var roles = _context.Roles.ToList();
 
         foreach (LaManuAutoUser user in users)
         {
@@ -40,33 +39,43 @@ public class UserController : Controller
 
         return View(model);
     }
-    /*
+
+    
     public async Task<IActionResult> Edit(string id)
     {
-        var user = _unitOfWork.User.GetUser(id);
-        var roles = _unitOfWork.Role.GetRoles();
+        var user = _context.Users.Find(id);
+
+
+
+        if (user == null) {
+            return NotFound();
+        }
 
         var userRoles = await _signInManager.UserManager.GetRolesAsync(user);
 
-        var roleItems = roles.Select(role =>
-            new SelectListItem(
-                role.Name,
-                role.Id,
-                userRoles.Any(ur => ur.Contains(role.Name)))).ToList();
-
-        var vm = new EditUserViewModel
+        var vm = new LaManuAutoUserRoleView()
         {
             User = user,
-            Roles = roleItems
+            Roles = userRoles
         };
+
+        if (vm.Roles.Count() > 0)
+        {
+            ViewData["Roles"] = new SelectList(_context.Roles, "Name", "Name");
+        }
+        else
+        {
+            ViewData["Roles"] = new SelectList(_context.Roles, "Name", "Name", vm.Roles.First());
+        }
+
 
         return View(vm);
     }
 
     [HttpPost]
-    public async Task<IActionResult> OnPostAsync(EditUserViewModel data)
+    public async Task<IActionResult> OnPostAsync(LaManuAutoUserRoleView data)
     {
-        var user = _unitOfWork.User.GetUser(data.User.Id);
+        var user = _context.Users.Find(data.User.Id);
         if (user == null)
         {
             return NotFound();
@@ -74,51 +83,15 @@ public class UserController : Controller
 
         var userRolesInDb = await _signInManager.UserManager.GetRolesAsync(user);
 
-        //Loop through the roles in ViewModel
-        //Check if the Role is Assigned In DB
-        //If Assigned -> Do Nothing
-        //If Not Assigned -> Add Role
+        await _signInManager.UserManager.RemoveFromRoleAsync(user, userRolesInDb.First());
 
-        var rolesToAdd = new List<string>();
-        var rolesToDelete = new List<string>();
 
         foreach (var role in data.Roles)
         {
-            var assignedInDb = userRolesInDb.FirstOrDefault(ur => ur == role.Text);
-            if (role.Selected)
-            {
-                if (assignedInDb == null)
-                {
-                    rolesToAdd.Add(role.Text);
-                }
-            }
-            else
-            {
-                if (assignedInDb != null)
-                {
-                    rolesToDelete.Add(role.Text);
-                }
-            }
+            await _signInManager.UserManager.AddToRoleAsync(user, role);
         }
 
-        if (rolesToAdd.Any())
-        {
-            await _signInManager.UserManager.AddToRolesAsync(user, rolesToAdd);
-        }
-
-        if (rolesToDelete.Any())
-        {
-            await _signInManager.UserManager.RemoveFromRolesAsync(user, rolesToDelete);
-        }
-
-        user.FirstName = data.User.FirstName;
-        user.LastName = data.User.LastName;
-        user.Email = data.User.Email;
-
-        _unitOfWork.User.UpdateUser(user);
-
-        return RedirectToAction("Edit", new { id = user.Id });
+        return RedirectToAction("Index");
     }
-    */
 }
 
