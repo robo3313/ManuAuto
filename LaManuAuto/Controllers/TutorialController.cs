@@ -22,23 +22,25 @@ namespace LaManuAuto.Controllers
         }
 
         // GET: Tutorials
-        [Authorize(Policy = "RequireAdminOrManagerOrUser")]
         public async Task<IActionResult> Index()
         {
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            string userId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
-
-            List<TutorialView> tmp = _context.TutorialView.Where(t => t.UserId == userId).ToList();
-
             List<Tutorial> tutorials = _context.Tutorials.ToList();
-
-            foreach (Tutorial tutorial in tutorials)
+            if (this.User.IsInRole("Administrator") || this.User.IsInRole("Manager") || this.User.IsInRole("User"))
             {
-                foreach (TutorialView tutorialView in tmp)
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+                string userId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+
+                List<TutorialView> tmp = _context.TutorialView.Where(t => t.UserId == userId).ToList();
+
+
+                foreach (Tutorial tutorial in tutorials)
                 {
-                    if (tutorialView.TutorialId == tutorial.Id)
+                    foreach (TutorialView tutorialView in tmp)
                     {
-                        tutorial.Viewed = true;
+                        if (tutorialView.TutorialId == tutorial.Id)
+                        {
+                            tutorial.Viewed = true;
+                        }
                     }
                 }
             }
@@ -47,7 +49,6 @@ namespace LaManuAuto.Controllers
         }
 
         // GET: Tutorials/Details/5
-        [Authorize(Policy = "RequireAdminOrManager")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Tutorials == null)
@@ -60,15 +61,19 @@ namespace LaManuAuto.Controllers
             {
                 return NotFound();
             }
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            string userId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
-            TutorialView? view = _context.TutorialView.Where(t => t.TutorialId == id && t.UserId == userId).SingleOrDefault();
-            if (view == null) {
-                var tmp = new TutorialView();
-                tmp.TutorialId = tutorial.Id;
-                tmp.UserId = userId;
-                _context.TutorialView.Add(tmp);
-                await _context.SaveChangesAsync();
+            if (this.User.IsInRole("Administrator") || this.User.IsInRole("Manager") || this.User.IsInRole("User"))
+            {
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+                string userId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+                TutorialView? view = _context.TutorialView.Where(t => t.TutorialId == id && t.UserId == userId).SingleOrDefault();
+                if (view == null)
+                {
+                    var tmp = new TutorialView();
+                    tmp.TutorialId = tutorial.Id;
+                    tmp.UserId = userId;
+                    _context.TutorialView.Add(tmp);
+                    await _context.SaveChangesAsync();
+                }
             }
             return View(tutorial);
         }
