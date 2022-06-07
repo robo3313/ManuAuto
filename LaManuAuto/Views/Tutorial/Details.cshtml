@@ -12,6 +12,14 @@
     <iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
+@if (Model.Tags != null) {
+    <div class="text-muted mb-3">
+        Tags : @foreach (var tag in @Model.Tags) {
+            @tag.Fullname;
+        }
+    </div>
+}
+
 <div class="text-muted mb-3">
     Date de création : @Model.CreationDate <br />
     Date de modification : @Model.ModificationDate
