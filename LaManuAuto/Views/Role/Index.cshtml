@@ -4,4 +4,33 @@
 }
 <div>
     <h1 class="display-4 text-center">Role Page</h1>
+    @if (@Model != null && @Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Normalized name</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var role in Model)
+                {
+                    <tr>
+                        <th scope="row">@role.Id</th>
+                        <td>@role.Name</td>
+                        <td>@role.NormalizedName</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@role.Id">Profile</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else{
+        <p>There's no registered role !</p>
+    }
 </div>

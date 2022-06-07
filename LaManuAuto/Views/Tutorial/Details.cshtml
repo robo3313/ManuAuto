@@ -1,0 +1,36 @@
+﻿@model LaManuAuto.Models.Tutorial
+
+@{
+    ViewData["Title"] = $"Details sur tutoriel \"{@Model.Title}\" ({@Model.Id})";
+}
+
+<h1>@Model.Title</h1>
+
+<h2>Description</h2>
+<p>@Model.Description</p>
+<h2>Vidéo</h2>
+<div class="mb-4">
+    <iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<h2>Catégories</h2>
+@if (Model.Tags != null) {
+    <div class="text-muted mb-3">
+        Tags : @foreach (var tag in @Model.Tags) {
+            @tag.Fullname;
+        }
+    </div>
+}
+<h2>Dates de création</h2>
+<div class="text-muted mb-3">
+    <dl class="row">
+        <dt class = "col-sm-2">Date de création</dt>
+        <dd class = "col-sm-10"><time>@Model.CreationDate</time></dd>
+        <dt class = "col-sm-2">Date de modification</dt>
+        <dd class = "col-sm-10">@Model.ModificationDate</dd>
+    </dl>
+</div>
+<h2>Actions</h2>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
