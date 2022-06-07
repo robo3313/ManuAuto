@@ -4,64 +4,76 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="border-bottom border-primary pb-2 mb-4">Gestion des tutoriels</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="mb-4">
+    <a class="text-decoration-none btn btn-primary" asp-action="Create">
+        <img src="/images/svg/plus-circle.svg" alt="" />
+        Ajouter
+    </a>
+</div>
+
+
+
+<table class="table table-striped table-light">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Titre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VideoUrl)
+                Url de la vidéo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
+                Publié le 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModificationDate)
+                Modifié le
             </th>
-            <th></th>
-            <th></th>
+            <th>
+                Actions
+            </th>
+            <th>Consulté</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VideoUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModificationDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-            <td>
-                @if (@item.Viewed) {
-                    <span>Vu</span>
-                } else {
-                    <span>Pas Vu</span>
-                }
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VideoUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModificationDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+                <td>
+                    @if (@item.Viewed)
+                    {
+                        <img src="/images/svg/check-lg.svg" alt="" />
+                    }
+                    else
+                    {
+                        <span></span>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
