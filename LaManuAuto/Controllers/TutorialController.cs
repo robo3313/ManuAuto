@@ -22,6 +22,7 @@ namespace LaManuAuto.Controllers
         }
 
         // GET: Tutorials
+        [Authorize(Policy = "RequireAdminOrManagerOrUser")]
         public async Task<IActionResult> Index()
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
@@ -46,6 +47,7 @@ namespace LaManuAuto.Controllers
         }
 
         // GET: Tutorials/Details/5
+        [Authorize(Policy = "RequireAdminOrManager")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Tutorials == null)
@@ -72,7 +74,7 @@ namespace LaManuAuto.Controllers
         }
 
         // GET: Tutorials/Create
-        [Authorize(Policy = "RequireAdmin")]
+        [Authorize(Policy = "RequireAdminOrManager")]
         public IActionResult Create()
         {
             ViewData["Tags"] = _context.Tags;
@@ -84,7 +86,7 @@ namespace LaManuAuto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "RequireAdmin")]
+        [Authorize(Policy = "RequireAdminOrManager")]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,VideoUrl,CreationDate,ModificationDate")] Tutorial tutorial)
         {
             ICollection<string> keys = HttpContext.Request.Form.Keys;
@@ -110,6 +112,7 @@ namespace LaManuAuto.Controllers
         }
 
         // GET: Tutorials/Edit/5
+        [Authorize(Policy = "RequireAdminOrManager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Tutorials == null)
@@ -131,6 +134,7 @@ namespace LaManuAuto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdminOrManager")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,VideoUrl,CreationDate,ModificationDate")] Tutorial newTutorial)
         {
             if (id != newTutorial.Id)
@@ -182,6 +186,7 @@ namespace LaManuAuto.Controllers
         }
 
         // GET: Tutorials/Delete/5
+        [Authorize(Policy = "RequireAdminOrManager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Tutorials == null)
@@ -202,6 +207,7 @@ namespace LaManuAuto.Controllers
         // POST: Tutorials/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdminOrManager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Tutorials == null)

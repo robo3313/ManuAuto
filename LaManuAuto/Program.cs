@@ -57,6 +57,9 @@ void AddAuthorizationPolicies(IServiceCollection services)
     {
         options.AddPolicy("RequireAdmin", policy => policy.RequireRole("Administrator"));
         options.AddPolicy("RequireManager", policy => policy.RequireRole("Manager"));
+        options.AddPolicy("RequireAdminOrManager", policy => policy.RequireRole("Administrator", "Manager"));
+        options.AddPolicy("RequireAdminOrManagerOrUser", policy => policy.RequireRole("Administrator", "Manager", "User"));
+
     });
 
 }

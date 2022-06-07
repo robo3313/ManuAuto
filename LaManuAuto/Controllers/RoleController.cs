@@ -16,8 +16,8 @@ namespace LaManuAuto.Controllers
             return View();
         }
 
-        [Authorize(Policy = "RequireAdmin")]
-        //[Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager}")]
+        //[Authorize(Policy = "RequireAdmin,RequireManager")]
+        [Authorize(Roles = "RequireAdmin,RequireManager")]
         public IActionResult Admin()
         {
             return View();
