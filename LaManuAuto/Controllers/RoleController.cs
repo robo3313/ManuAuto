@@ -32,5 +32,13 @@ namespace LaManuAuto.Controllers
                           View(await _context.Roles.ToListAsync()) :
                           Problem("Entity set 'LaManuAutoContext.Roles'  is null.");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile(string id)
+        {
+            return _context.Roles.Find(id) != null ?
+                          View(_context.Roles.Find(id)) :
+                          Problem($"Entity set 'LaManuAutoContext.Roles.Find({id})'  is null.");
+        }
     }
 }
