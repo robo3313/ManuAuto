@@ -141,7 +141,6 @@ namespace LaManuAuto.Controllers
             {
                 return NotFound();
             }
-
             ICollection<string> keys = HttpContext.Request.Form.Keys;
             List<int> tagsToAdd = new();
             foreach (string key in keys)
