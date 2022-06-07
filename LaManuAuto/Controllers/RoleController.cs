@@ -10,6 +10,8 @@ namespace LaManuAuto.Controllers
     {
         private readonly LaManuAutoContext _context;
         public RoleController(LaManuAutoContext context) => _context = context;
+
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> Index()
         {
             return _context.Roles != null ?
@@ -38,7 +40,7 @@ namespace LaManuAuto.Controllers
                           Problem($"Entity set 'LaManuAutoContext.Roles.Find({id})'  is null.");
         }
 
-        [Authorize(Policy = "RequireManager")]
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> Manager()
         {
             return _context.Roles != null ?
@@ -46,8 +48,7 @@ namespace LaManuAuto.Controllers
                           Problem("Entity set 'LaManuAutoContext.Roles'  is null.");
         }
 
-        //[Authorize(Policy = "RequireAdmin,RequireManager")]
-        [Authorize(Roles = "RequireAdmin,RequireManager")]
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> Admin()
         {
             return _context.Roles != null ?

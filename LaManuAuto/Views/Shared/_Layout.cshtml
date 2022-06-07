@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using LaManuAuto.Areas.Identity.Data
 @using Microsoft.AspNetCore.Authorization
 
@@ -31,7 +31,7 @@
                         @if (User.IsInRole("Administrator") || User.IsInRole("Manager") || User.IsInRole("User"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Tag" asp-action="Index">Gestion catégories</a>
+                                <a class="nav-link" asp-area="" asp-controller="Tag" asp-action="Index">Tags</a>
                             </li>
                         }
                         @if (User.IsInRole("Administrator"))
