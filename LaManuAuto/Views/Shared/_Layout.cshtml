@@ -1,10 +1,11 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using LaManuAuto.Areas.Identity.Data
+@using Microsoft.AspNetCore.Authorization
 
-@inject SignInManager<LaManuAutoUser> SignInManager
+@inject IAuthorizationService AuthorizationService
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,44 +15,59 @@
     <link rel="stylesheet" href="~/LaManuAuto.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header class="mb-4">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LaManuAuto</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MANU-AUTO</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tutorial" asp-action="Index">Tutorials</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Tutorials" asp-action="Index">Tutorials</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="Index">Tags</a>
-                        </li>
-                        @if (SignInManager.IsSignedIn(User))
+                        @if (User.IsInRole("Administrator") || User.IsInRole("Manager") || User.IsInRole("User"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Role" asp-action="Index">Gestion des utilisateurs</a>
+                                <a class="nav-link" asp-area="" asp-controller="Tag" asp-action="Index">Tags</a>
                             </li>
                         }
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="navbarDropdown" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Role" asp-action="Manager">Manager</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Role" asp-action="Admin">Admin</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                        }
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
-
-                <partial name="_LoginPartial"/>
             </div>
         </nav>
     </header>
+    
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-2">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top text-white bg-primary py-3">
         <div class="container">
-            &copy; 2022 - LaManuAuto - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - LaManuAuto
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

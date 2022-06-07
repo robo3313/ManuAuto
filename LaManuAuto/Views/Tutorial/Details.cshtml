@@ -1,54 +1,45 @@
 ﻿@model LaManuAuto.Models.Tutorial
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = $"Details sur tutoriel \"{@Model.Title}\" ({@Model.Id})";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Tutorial</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VideoUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VideoUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModificationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModificationDate)
-        </dd>
-        @if (Model.Tags != null) {
-            <div class="text-muted mb-3">
-                Tags : @foreach (var tag in @Model.Tags) {
-                    @tag.Fullname;
-                }
-            </div>
+<div class="mb-1">
+    @if (Model.Tags != null)
+    {
+        @foreach (var tag in @Model.Tags)
+        {
+            <span class="badge bg-primary rounded-pill">
+                @tag.Fullname
+            </span>
         }
-    </dl>
+    }
 </div>
+<h1 class="border-bottom border-primary pb-2 mb-4">@Model.Title</h1>
+
+<h2>Description</h2>
+<p>@Model.Description</p>
+
+@if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
+{
+<div class="mb-4">
+    <iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<h2>Catégories</h2>
+@if (Model.Tags != null) {
+    <div class="text-muted mb-3">
+        Tags : @foreach (var tag in @Model.Tags) {
+            @tag.Fullname;
+        }
+    </div>
+}
+
+
+<div class="text-muted mb-3 small">
+    Créé le : @Model.CreationDate <br />
+    Modifié le : @Model.ModificationDate
+</div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
