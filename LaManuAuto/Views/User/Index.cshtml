@@ -7,11 +7,11 @@
 @using LaManuAuto.Models;
 @model  ICollection<LaManuAutoUserRoleView>
 
-<div class="text-center">
-    <h1 class="display-4">Users</h1>
+<div>
+   <h1 class="border-bottom border-primary pb-2 mb-4">Users page</h1>
     @if ( @Model != null && @Model.Any())
     {
-        <table class="table">
+        <table class="table table-light table-striped">
             <thead>
             <tr>
                 <th scope="col">Firstname</th>

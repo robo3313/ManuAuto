@@ -4,14 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="border-bottom border-primary pb-2 mb-4">Gestion des tutoriels</h1>
+<h1 class="border-bottom border-primary pb-2 mb-4">Tutorials page</h1>
 
 @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
 {
 <div class="mb-4">
     <a class="text-decoration-none btn btn-primary" asp-action="Create">
         <img src="/images/svg/plus-circle.svg" alt="" />
-        Ajouter
+        Add
     </a>
 </div>
 }
@@ -20,24 +20,24 @@
     <thead>
         <tr>
             <th>
-                Titre
+                Title
             </th>
             <th>
                 Description
             </th>
             <th>
-                Url de la vidéo
+                Url
             </th>
             <th>
-                Publié le 
+                Creation date
             </th>
             <th>
-                Modifié le
+                Update date
             </th>
             <th>
                 Actions
             </th>
-            <th>Consulté</th>
+            <th>View</th>
         </tr>
     </thead>
     <tbody>
