@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using LaManuAuto.Areas.Identity.Data
+@using Microsoft.AspNetCore.Authorization
 
-@inject SignInManager<LaManuAutoUser> SignInManager
+@inject IAuthorizationService AuthorizationService
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,16 +28,19 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Tutorial" asp-action="Index">Gestion tutoriels</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Tag" asp-action="Index">Gestion catégories</a>
-                        </li>
-                        @if (SignInManager.IsSignedIn(User))
+                        @if (User.IsInRole("Administrator") || User.IsInRole("Manager") || User.IsInRole("User"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Tag" asp-action="Index">Gestion catégories</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Role" asp-action="Index">Gestion des Roles</a>
                             </li>
+                            
                         }
-                        
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
