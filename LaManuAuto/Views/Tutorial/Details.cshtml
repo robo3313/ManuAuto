@@ -1,7 +1,7 @@
 ﻿@model LaManuAuto.Models.Tutorial
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = $"Details sur tutoriel \"{@Model.Title}\" ({@Model.Id})";
 }
 
 <div class="mb-1">
@@ -17,12 +17,20 @@
 </div>
 <h1 class="border-bottom border-primary pb-2 mb-4">@Model.Title</h1>
 
+<h2>Description</h2>
 <p>@Model.Description</p>
 
 @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
 {
-    <div class="mb-4">
-        <iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div class="mb-4">
+    <iframe width="560" height="315" src="@Model.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<h2>Catégories</h2>
+@if (Model.Tags != null) {
+    <div class="text-muted mb-3">
+        Tags : @foreach (var tag in @Model.Tags) {
+            @tag.Fullname;
+        }
     </div>
 }
 

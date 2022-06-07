@@ -26,7 +26,7 @@
                     <ul class="navbar-nav">
                         
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Tutorial" asp-action="Index">Gestion tutoriels</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Tutorials" asp-action="Index">Tutorials</a>
                         </li>
                         @if (User.IsInRole("Administrator") || User.IsInRole("Manager") || User.IsInRole("User"))
                         {
@@ -37,7 +37,18 @@
                         @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Role" asp-action="Index">Gestion des Roles</a>
+                                <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="navbarDropdown" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Role" asp-action="Manager">Manager</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Role" asp-action="Admin">Admin</a>
+                                    </li>
+                                </ul>
                             </li>
                             
                         }

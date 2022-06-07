@@ -40,4 +40,8 @@ public class LaManuAutoContext : IdentityDbContext<LaManuAutoUser>
 
     public DbSet<TutorialView> TutorialView { get; set; }
 
+    public DbSet<IdentityRole> Roles { get; set; }
+
+    public DbSet<LaManuAutoUser> Users { get; set; }
+
 }

@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Microsoft.AspNetCore.Identity.IdentityRole
+@{
+    ViewData["Title"] = $"Details sur tutoriel \"{@Model.Name}\" ({@Model.Id})";
+}
+
+<h1>Informations</h1>
+<dl class="row">
+    <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.Name)</dt>
+    <dd class = "col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+    <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.NormalizedName)</dt>
+    <dd class = "col-sm-10">@Html.DisplayFor(model => model.NormalizedName)</dd>
+    <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.ConcurrencyStamp)</dt>
+    <dd class = "col-sm-10">@Html.DisplayFor(model => model.ConcurrencyStamp)</dd>
+</dl>
+
+<h1>Titulaires</h1>
+@if(ViewBag.userByPosition!=null){
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                @*<th>Lastname</th>
+                <th>Firstname</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var user in ViewBag.userByPosition)
+            {
+                <tr>
+                    <th>@user.UserId</th>
+                    @*<td>user.lastname</td>
+                    <td>user.firstname</td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+}else{
+    <p>Le tableau est vide !</p>
+}
